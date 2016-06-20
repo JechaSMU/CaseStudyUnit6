@@ -1,4 +1,4 @@
-# CaseStudyUnit6_GDP
+# Gross Domestic Product Analysis
 Jean Jecha  
 June 20, 2016  
 ### GDP Data Analysis
@@ -124,7 +124,7 @@ GDPDataTidy <- na.omit(MergeGDPData)
 
 
 ##### Reporting the 13th country from the lower ranked 
-Showing what country is ranked 13th from bottom ranking 
+Based on the GDP Ranking from lowest ranking to highest ranking the following country is 13th in the rank. With the United States ranked highest their rank would be last in the list before retrieving the 13th country. 
 
 ```r
 # Question 2, sort GDP rank listing the 13th country 
@@ -178,7 +178,7 @@ ggplot(data=GDPDataTidy, aes(x=IncomeGroup, fill = IncomeGroup)) +
 
 
 ##### GDP ranking quantile compared to Income Group
-
+Breaking out GDP ranking into quantile groups to compare with the country income group. Table showing the quantile groups with income group and a count of countries within these pairs.
 
 ```r
 #  Question 5
