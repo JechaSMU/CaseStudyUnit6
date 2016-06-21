@@ -8,11 +8,9 @@ This report is an analysis of the gross domestic product (GDP) ranking data with
 
 
 ```r
-###############################
+########################################
 #  Load packages needed for analysis
-#  download and clean data files
-#
-################################
+########################################
 # Load packages
 library(repmis)
 library(countrycode)
@@ -47,6 +45,9 @@ library(dplyr)
 ```r
 library(ggplot2)
 
+####################################################
+#   Dowload and clean data files
+####################################################
 #  Place the GDP data URL into the object FinURL
 FinURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv"
 
@@ -62,8 +63,6 @@ FGDPData.2 <- FGDPData[!FGDPData$V2 == "",c(1:6)]
 #  Final columns of country code, ranking, country and GDP amount
 #      Eliminate any rows with no country code
 FGDPData.3 <- FGDPData.2[!FGDPData.2$V1 == "",c(1:2,4:5)]
-# head(FGDPData.3)
-# tail(FGDPData.3)
 
 #  adding column headers
 col_headings <- c("CountryCode", "Ranking", "country", "GDP")
@@ -139,10 +138,6 @@ Row13[13,]
 ## 102 Upper middle income
 ```
 
-```r
-# head(Row13,13)
-```
-
 
 ##### Average GDP Amount
 Analysis of the average GDP Amount in the income groups of high income: OECD and high income: nonOECD
@@ -154,7 +149,6 @@ GDPHighIncome <- GDPDataTidy[
       GDPDataTidy$IncomeGroup == "High income: OECD", ]
 
 GDPHighIncome.2 <- GDPHighIncome[,5:6]
-#  head(GDPHighIncome.2,200)
 aggregate(GDPHighIncome.2[, 1], list(GDPHighIncome.2$IncomeGroup), mean)
 ```
 
@@ -169,7 +163,7 @@ aggregate(GDPHighIncome.2[, 1], list(GDPHighIncome.2$IncomeGroup), mean)
 Graph indicating the GDP income broken out by the country income group.
 
 ```r
-#  Question 4
+#  Question 4 ggplot2
 ggplot(data=GDPDataTidy, aes(x=IncomeGroup, fill = IncomeGroup)) + 
     geom_bar()
 ```
@@ -181,7 +175,7 @@ ggplot(data=GDPDataTidy, aes(x=IncomeGroup, fill = IncomeGroup)) +
 Breaking out GDP ranking into quantile groups to compare with the country income group. Table showing the quantile groups with income group and a count of countries within these pairs.
 
 ```r
-#  Question 5
+#  Question 5 part 1 
 #   Breaking into quantiles showing results vs. Income Group
 GDPDataTidyQuantile <- GDPDataTidy %>% mutate(quantile = ntile(Ranking, 5))
 ddply(GDPDataTidyQuantile, c("quantile", "IncomeGroup"),
@@ -220,7 +214,8 @@ ddply(GDPDataTidyQuantile, c("quantile", "IncomeGroup"),
 Results of the top 38 ranked countries that fall into the lower middle income range of education.
 
 ```r
-#  Showing top 38 GDP ranked countries with "Lower Middle Income"
+#  Question 5 part 2 
+#    Showing top 38 GDP ranked countries with "Lower Middle Income"
 GDP38 <- GDPDataTidy[order(GDPDataTidy$Ranking,decreasing = FALSE),]
 GDP38 <- GDP38[1:38,]
 GDP38[GDP38$IncomeGroup == "Lower middle income",c(1:3,5:6)]
@@ -234,3 +229,6 @@ GDP38[GDP38$IncomeGroup == "Lower middle income",c(1:3,5:6)]
 ## 185         THA      31         Thailand    365966 Lower middle income
 ## 56          EGY      38 Egypt, Arab Rep.    262832 Lower middle income
 ```
+
+##### Summary
+To conclude this analysis the final data contained 190 GDP countries. The High Income: OECD group has a GDP average of 1,483,917 compared to the nonOECD average of 104,349. The Lower Middle Income group has the largest GDP total and Upper Middle Income being second largest GDP. Five of the top 38 GRP ranking countries are in the Lower Middle income group. 
